@@ -1,0 +1,66 @@
+# ==============================================
+# Virtuální prostředí (Virtual environment)
+# ==============================================
+.venv/
+venv/
+env/
+ENV/
+
+# ==============================================
+# Python cache soubory (Python cache files)
+# ==============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# ==============================================
+# Jupyter Notebook checkpointy
+# ==============================================
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# ==============================================
+# VS Code nastavení (VS Code settings)
+# ==============================================
+.vscode/
+
+# ==============================================
+# Datové soubory - Housing dataset (nechceme sdílet)
+# ==============================================
+data/HousingData.csv
+
+# ==============================================
+# Vzorový (ukázkový) projekt - nechceme sdílet
+# ==============================================
+notebooks/vzorovy_projekt.ipynb
+
+# ==============================================
+# Trénované modely a škálovač (trained models)
+# ==============================================
+# Odkomentuj pokud nechceš sdílet modely:
+# notebooks/scaler.bin
+# notebooks/svm_model.sav
+
+# ==============================================
+# Pip a balíčky (pip and packages)
+# ==============================================
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ==============================================
+# Různé systémové soubory (misc system files)
+# ==============================================
+.DS_Store
+Thumbs.db
+CACHEDIR.TAG
+pyvenv.cfg
+
+# ==============================================
+# Logy a dočasné soubory (logs and temp files)
+# ==============================================
+*.log
+*.tmp
+*.bak
