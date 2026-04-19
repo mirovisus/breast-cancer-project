@@ -26,21 +26,14 @@ __pycache__/
 .vscode/
 
 # ==============================================
-# Datové soubory - Housing dataset (nechceme sdílet)
+# Datové soubory - Housing dataset
 # ==============================================
 data/HousingData.csv
 
 # ==============================================
-# Vzorový (ukázkový) projekt - nechceme sdílet
+# Vzorový (ukázkový) projekt
 # ==============================================
 notebooks/vzorovy_projekt.ipynb
-
-# ==============================================
-# Trénované modely a škálovač (trained models)
-# ==============================================
-# Odkomentuj pokud nechceš sdílet modely:
-# notebooks/scaler.bin
-# notebooks/svm_model.sav
 
 # ==============================================
 # Pip a balíčky (pip and packages)

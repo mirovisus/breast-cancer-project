@@ -1,16 +1,16 @@
-# 🎗️ Predikce rakoviny prsu — Breast Cancer Classification
+# Predikce rakoviny prsu - Breast Cancer Classification
 
 > **Typ úlohy**: Binární klasifikace  
 > **Algoritmy**: SVM (Support Vector Machine) + Neuronová síť (MLP)  
-> **Dataset**: Breast Cancer Wisconsin (Prognostic) — poskytnuta vyučujícím 
+> **Dataset**: Breast Cancer Wisconsin (Prognostic) - poskytnuta vyučujícím 
 > **Jazyk**: Python 3.x | scikit-learn | Keras / TensorFlow
 
 ---
 
-## 📌 Popis obchodní úlohy (Business Problem)
+## Popis obchodní úlohy (Business Problem)
 
 Rakovina prsu je jedním z nejčastějších onkologických onemocnění u žen na světě.
-Včasná a přesná diagnostika — rozlišení nezhoubného a zhoubného nádoru —
+Včasná a přesná diagnostika - rozlišení nezhoubného a zhoubného nádoru -
 má přímý vliv na volbu léčby a přežití pacientky.
 
 **Cíl projektu**: Vytvořit ML model, který na základě **vlastností buněčných jader**
@@ -23,17 +23,17 @@ má přímý vliv na volbu léčby a přežití pacientky.
 
 ---
 
-## 🗄️ Dataset
+## Dataset
 
 | Vlastnost | Hodnota |
 |---|---|
-| Zdroj | Upravená verze datasetu poskytnutá vyučujícím (původ: Breast Cancer Wisconsin — UCI ML Repository) |
+| Zdroj | Upravená verze datasetu poskytnutá vyučujícím (původ: Breast Cancer Wisconsin - UCI ML Repository) |
 | Soubor | `data/rakovina_prsou.csv` |
 | Počet záznamů | ~198 pacientek |
 | Počet příznaků | 23 vstupních (po čištění: 13) |
-| Cílová proměnná | `Tumor` — M (maligní = 1), B (benigní = 0) |
+| Cílová proměnná | `Tumor` - M (maligní = 1), B (benigní = 0) |
  
-> ⚠️ Dataset byl předem upraven vyučujícím (částečné předzpracování) a **není totožný** s originálním UCI souborem.
+> Dataset byl předem upraven vyučujícím (částečné předzpracování) a **není totožný** s originálním UCI souborem.
 
 ### Příznaky datasetu
 
@@ -56,26 +56,26 @@ Příznaky jsou odvozeny z digitalizovaného snímku FNA (aspirát z tenké jehl
 ---
 
 
-## 🔬 ML řešení
+## ML řešení
 
 ### Proč SVM?
 
 SVM (Support Vector Machine) je vhodný pro:
-- Menší datasety s dobře definovanými příznaky ✅
-- Binární klasifikaci ✅  
-- Situace kde je důležitá **interpretovatelnost hranice rozhodování** ✅
-- Robustnost vůči odlehlým hodnotám (outliers) ✅
+- Menší datasety s dobře definovanými příznaky 
+- Binární klasifikaci 
+- Situace kde je důležitá **interpretovatelnost hranice rozhodování** 
+- Robustnost vůči odlehlým hodnotám (outliers) 
 
 ### Proč neuronová síť (MLP)?
 
 MLP (Multi-Layer Perceptron) umožňuje:
-- Zachycení nelineárních vztahů mezi příznaky ✅
-- Potenciálně vyšší přesnost při správném nastavení ✅
-- Srovnání s klasickým přístupem ✅
+- Zachycení nelineárních vztahů mezi příznaky 
+- Potenciálně vyšší přesnost při správném nastavení 
+- Srovnání s klasickým přístupem 
 
 ---
 
-## 🏗️ Architektura projektu
+## Architektura projektu
 
 ```
 BREAST-CANCER-PROJECT/
@@ -96,22 +96,22 @@ BREAST-CANCER-PROJECT/
 
 ---
 
-## 🔄 ML Pipeline
+## ML Pipeline
 
 ```
 Načtení dat (CSV)
        ↓
-EDA — popis, histogramy, box ploty
+EDA - popis, histogramy, box ploty
        ↓
-Čištění — odstranění ID, Time sloupců
+Čištění - odstranění ID, Time sloupců
        ↓
-Kódování — Tumor: M→1, B→0
+Kódování - Tumor: M→1, B→0
        ↓
-Výběr příznaků — korelační matice, odstranění multikolinearity
+Výběr příznaků - korelační matice, odstranění multikolinearity
        ↓
-Standardizace — StandardScaler (μ=0, σ=1)
+Standardizace - StandardScaler (μ=0, σ=1)
        ↓
-Rozdělení dat — Train 75% / Val 15% / Test 10%
+Rozdělení dat - Train 75% / Val 15% / Test 10%
        ↓
 ┌──────────────────┬────────────────────────┐
 │   SVM model      │   Neuronová síť (MLP)  │
@@ -122,14 +122,14 @@ Rozdělení dat — Train 75% / Val 15% / Test 10%
        ↓                        ↓
          Porovnání modelů
                ↓
-         Inference — vlastní data
+         Inference - vlastní data
                ↓
          Uložení výsledků (results.csv)
 ```
 
 ---
 
-## 📊 Výsledky modelů
+## Výsledky modelů
 
 | Model | Val Accuracy | Poznámka |
 |---|---|---|
@@ -142,11 +142,11 @@ Rozdělení dat — Train 75% / Val 15% / Test 10%
 
 ---
 
-## ⚙️ Instalace a spuštění
+## Instalace a spuštění
 
 ```bash
 # 1. Klonování repozitáře
-git clone <url-repozitare>
+git clone https://github.com/mirovisus/breast-cancer-project.git
 cd BREAST-CANCER-PROJECT
 
 # 2. Vytvoření virtuálního prostředí
@@ -166,19 +166,19 @@ jupyter notebook notebooks/rakovina_prsou.ipynb
 
 ---
 
-## 📦 Závislosti
+## Závislosti
 
 Viz `requirements.txt`. Klíčové knihovny:
-- `pandas`, `numpy` — zpracování dat
-- `scikit-learn` — SVM, StandardScaler, GridSearchCV, metriky
-- `matplotlib`, `seaborn` — vizualizace
-- `tensorflow` / `keras` — neuronová síť
-- `joblib`, `pickle` — ukládání modelů
+- `pandas`, `numpy` - zpracování dat
+- `scikit-learn` - SVM, StandardScaler, GridSearchCV, metriky
+- `matplotlib`, `seaborn` - vizualizace
+- `tensorflow` / `keras` - neuronová síť
+- `joblib`, `pickle` - ukládání modelů
 
 ---
 
-## 👩‍💻 Autor
+## Autor
 
-Školní projekt — předmět Strojové učení  
+Školní projekt - předmět Strojové učení  
 Autor: Vasilisa Pozdniakova  
 Dataset: upraven a poskytnut vyučujícím (původní zdroj: Breast Cancer Wisconsin Prognostic, UCI ML Repository)
