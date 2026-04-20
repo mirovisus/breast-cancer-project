@@ -86,8 +86,10 @@ BREAST-CANCER-PROJECT/
 ├── notebooks/
 │   ├── rakovina_prsou.ipynb        # Hlavní notebook s analýzou a modely
 │   ├── scaler.bin                  # Uložený StandardScaler
-│   └── svm_model.sav               # Uložený natrénovaný SVM model
+│   ├── svm_model.sav               # Uložený natrénovaný SVM model
 │   └── classification_model.pt     # Uložené váhy neuronové sítě (PyTorch)
+│
+├── images/                         # Vizualizace pro README
 │
 ├── pipeline.py                     # Celý ML pipeline (EDA → model → metriky)
 ├── requirements.txt                # Závislosti projektu
@@ -129,6 +131,16 @@ Rozdělení dat - Train 75% / Val 15% / Test 10% (426 / 85 / 58 vzorků)
 
 ---
 
+## Analýza dat
+ 
+### Korelační matice
+ 
+![Korelační matice](images/correlation_matrix.png)
+ 
+Na základě korelační matice byly odstraněny sloupce s multikolinearitou (Radius/Perimeter/Area, Compactness/Concavity, Perimeter Variance/Area Variance) a příznaky se slabým vztahem k cílové proměnné (Fractal Dimension, Texture Variance, Symmetry Variance). Z 23 vstupních příznaků zůstalo **13 relevantních**.
+ 
+---
+
 ## Výsledky modelů
 
 | Model | Validace (85 vz.) | Test (58 vz.) |
@@ -139,19 +151,40 @@ Rozdělení dat - Train 75% / Val 15% / Test 10% (426 / 85 / 58 vzorků)
 
 **Nejlepší parametry SVM:** `kernel='poly', C=1, degree=1, gamma=0.7`
 
-**Confusion matrix na validační sadě:**
-
+### SVM – hranice rozhodování
+ 
+![SVM Decision Boundary](images/svm_decision_boundary.png)
+ 
+Vizualizace na 2 nejdůležitějších příznacích (Concave Points a Radius). Maligní nádory (červená) mají vyšší hodnoty obou příznaků, benigní (modrá) nižší. Kroužky označují support vektory – body, které definují hranici.
+ 
+### Trénování neuronové sítě
+ 
+![Training Loss](images/training_loss.png)
+ 
+Ztrátová funkce (Binary Cross-Entropy) plynule klesá s rostoucím počtem epoch, model se učí správně bez známek divergence.
+ 
+### Confusion matrix na validační sadě
+ 
+<table>
+<tr>
+<td><img src="images/confusion_matrix_svm.png" alt="SVM" width="400"/></td>
+<td><img src="images/confusion_matrix_nn.png" alt="NN" width="400"/></td>
+</tr>
+<tr>
+<td align="center"><b>SVM (GridSearchCV)</b></td>
+<td align="center"><b>Neuronová síť</b></td>
+</tr>
+</table>
 | | SVM | Neuronová síť |
 |---|---|---|
 | Správně benigní (TN) | 46 | 48 |
 | Správně maligní (TP) | 31 | 31 |
 | Falešný poplach (FP) | 6 | 4 |
 | **Přehlédnutý nádor (FN)** | **2** | **2** |
-
+ 
 **Recall pro třídu Maligní na testu:**
 - SVM: 0,95 (přehlédl 1 z 21 maligních případů)
 - Neuronová síť: **1,00** (zachytil všechny maligní případy)
-
 ---
 
 ## Závěr a porovnání modelů
