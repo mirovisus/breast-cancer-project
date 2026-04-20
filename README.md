@@ -1,7 +1,7 @@
 # Predikce rakoviny prsu - Breast Cancer Classification
 
 > **Typ úlohy**: Binární klasifikace  
-> **Algoritmy**: SVM (Support Vector Machine) + Neuronová síť (MLP)  
+> **Algoritmy**: SVM (Support Vector Machine) + Neuronová síť (PyTorch MLP)  
 > **Dataset**: Breast Cancer Wisconsin (Prognostic) - poskytnuta vyučujícím 
 > **Jazyk**: Python 3.x | scikit-learn | Keras / TensorFlow
 
@@ -29,7 +29,7 @@ má přímý vliv na volbu léčby a přežití pacientky.
 |---|---|
 | Zdroj | Upravená verze datasetu poskytnutá vyučujícím (původ: Breast Cancer Wisconsin - UCI ML Repository) |
 | Soubor | `data/rakovina_prsou.csv` |
-| Počet záznamů | ~198 pacientek |
+| Počet záznamů | 569 pacientek |
 | Počet příznaků | 23 vstupních (po čištění: 13) |
 | Cílová proměnná | `Tumor` - M (maligní = 1), B (benigní = 0) |
  
@@ -87,6 +87,7 @@ BREAST-CANCER-PROJECT/
 │   ├── rakovina_prsou.ipynb        # Hlavní notebook s analýzou a modely
 │   ├── scaler.bin                  # Uložený StandardScaler
 │   └── svm_model.sav               # Uložený natrénovaný SVM model
+│   └── classification_model.pt     # Uložené váhy neuronové sítě (PyTorch)
 │
 ├── pipeline.py                     # Celý ML pipeline (EDA → model → metriky)
 ├── requirements.txt                # Závislosti projektu
@@ -107,39 +108,64 @@ EDA - popis, histogramy, box ploty
        ↓
 Kódování - Tumor: M→1, B→0
        ↓
-Výběr příznaků - korelační matice, odstranění multikolinearity
+Výběr příznaků - korelační matice, odstranění multikolinearity (23 → 13 příznaků)
        ↓
 Standardizace - StandardScaler (μ=0, σ=1)
        ↓
-Rozdělení dat - Train 75% / Val 15% / Test 10%
+Rozdělení dat - Train 75% / Val 15% / Test 10% (426 / 85 / 58 vzorků)
        ↓
-┌──────────────────┬────────────────────────┐
-│   SVM model      │   Neuronová síť (MLP)  │
-│  GridSearchCV    │   Keras Sequential     │
-└──────────────────┴────────────────────────┘
-       ↓                        ↓
-  Metriky SVM            Metriky MLP
-       ↓                        ↓
-         Porovnání modelů
+┌──────────────────────────┬──────────────────────────────┐
+│   SVM model              │   Neuronová síť (MLP)        │
+│   scikit-learn           │   PyTorch                    │
+│   GridSearchCV (cv=5)    │   4 skryté vrstvy + Sigmoid  │
+└──────────────────────────┴──────────────────────────────┘
+       ↓                              ↓
+  Metriky SVM                   Metriky MLP
+       ↓                              ↓
+         Porovnání modelů (accuracy, precision, recall, F1)
                ↓
-         Inference - vlastní data
-               ↓
-         Uložení výsledků (results.csv)
+         Uložení modelů a scaleru
 ```
 
 ---
 
 ## Výsledky modelů
 
-| Model | Val Accuracy | Poznámka |
+| Model | Validace (85 vz.) | Test (58 vz.) |
 |---|---|---|
-| SVM Linear (baseline) | 90.59% | Základní model |
-| SVM + GridSearchCV | 92.94% | Optimalizace hyperparametrů |
-| MLP (Neural Network) | *viz notebook* | Sekce 4 v notebooku |
+| SVM Linear (baseline) | 90,59 % | — |
+| SVM + GridSearchCV | 92,94 % | 96,55 % |
+| Neuronová síť (MLP) | 92,94 % | 96,55 % |
 
-> **Nejlepší hyperparametry SVM** (GridSearchCV, cv=5):  
-> Prohledávaný prostor: `poly` kernel (C: 1,5,10,50 | degree: 1-4 | gamma: 0.1-5) a `rbf` kernel
+**Nejlepší parametry SVM:** `kernel='poly', C=1, degree=1, gamma=0.7`
 
+**Confusion matrix na validační sadě:**
+
+| | SVM | Neuronová síť |
+|---|---|---|
+| Správně benigní (TN) | 46 | 48 |
+| Správně maligní (TP) | 31 | 31 |
+| Falešný poplach (FP) | 6 | 4 |
+| **Přehlédnutý nádor (FN)** | **2** | **2** |
+
+**Recall pro třídu Maligní na testu:**
+- SVM: 0,95 (přehlédl 1 z 21 maligních případů)
+- Neuronová síť: **1,00** (zachytil všechny maligní případy)
+
+---
+
+## Závěr a porovnání modelů
+
+Oba modely dosáhly shodné přesnosti – 92,94 % na validaci a 96,55 % na testu. Rozdíl je v **typu chyb**, což je u medicínské diagnózy důležitější než samotná přesnost.
+
+**Neuronová síť** na testu nepřehlédla ani jeden maligní nádor (recall = 1,00), ale generuje více falešných poplachů.
+
+**SVM** dělá méně falešných poplachů, ale na testu jeden maligní případ přehlédl.
+
+Pro reálné nasazení je **vhodnější neuronová síť** – v medicíně je přehlédnutý nádor (False Negative) mnohem nebezpečnější než falešný poplach. Pacientka raději podstoupí další vyšetření, než aby zůstala bez léčby.
+
+**Omezení:** Testovací sada má pouze 58 vzorků.
+ 
 ---
 
 ## Instalace a spuštění
@@ -148,18 +174,18 @@ Rozdělení dat - Train 75% / Val 15% / Test 10%
 # 1. Klonování repozitáře
 git clone https://github.com/mirovisus/breast-cancer-project.git
 cd BREAST-CANCER-PROJECT
-
+ 
 # 2. Vytvoření virtuálního prostředí
 python -m venv .venv
 .venv\Scripts\activate        # Windows
 # nebo: source .venv/bin/activate  # Linux/Mac
-
+ 
 # 3. Instalace závislostí
 pip install -r requirements.txt
-
+ 
 # 4. Spuštění celého pipeline
 python pipeline.py
-
+ 
 # 5. Nebo otevřít notebook
 jupyter notebook notebooks/rakovina_prsou.ipynb
 ```
@@ -179,6 +205,6 @@ Viz `requirements.txt`. Klíčové knihovny:
 
 ## Autor
 
-Školní projekt - předmět Strojové učení  
+Školní projekt - předmět Strojové učení (BMLAI)  
 Autor: Vasilisa Pozdniakova  
 Dataset: upraven a poskytnut vyučujícím (původní zdroj: Breast Cancer Wisconsin Prognostic, UCI ML Repository)
