@@ -175,11 +175,12 @@ Ztrátová funkce (Binary Cross-Entropy) plynule klesá s rostoucím počtem epo
 <td align="center"><b>Neuronová síť</b></td>
 </tr>
 </table>
-| | SVM | Neuronová síť |
+
+|  | SVM | Neuronová síť |
 |---|---|---|
-| Správně benigní (TN) | 46 | 48 |
+| Správně benigní (TN) | 46 | 47 |
 | Správně maligní (TP) | 31 | 31 |
-| Falešný poplach (FP) | 6 | 4 |
+| Falešný poplach (FP) | 6 | 5 |
 | **Přehlédnutý nádor (FN)** | **2** | **2** |
  
 **Recall pro třídu Maligní na testu:**
