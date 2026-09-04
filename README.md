@@ -3,7 +3,7 @@
 > **Typ úlohy**: Binární klasifikace  
 > **Algoritmy**: SVM (Support Vector Machine) + Neuronová síť (PyTorch MLP)  
 > **Dataset**: Breast Cancer Wisconsin (Prognostic) - poskytnuta vyučujícím 
-> **Jazyk**: Python 3.x | scikit-learn | Keras / TensorFlow
+> **Jazyk**: Python 3.x | scikit-learn | PyTorch
 
 ---
 
