@@ -1,5 +1,7 @@
 # Predikce rakoviny prsu - Breast Cancer Classification
 
+![Breast Cancer Classification](images/first.png)
+
 > **Typ úlohy**: Binární klasifikace  
 > **Algoritmy**: SVM (Support Vector Machine) + Neuronová síť (PyTorch MLP)  
 > **Dataset**: Breast Cancer Wisconsin (Prognostic) - poskytnuta vyučujícím 
